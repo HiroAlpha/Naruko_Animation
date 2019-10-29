@@ -10,37 +10,40 @@ import android.util.AttributeSet;
 import android.view.View;
 
 public class CanvasView extends View {
-    Paint paint;
+    int count = 0;  //文字列受け取り回数
+    int radius = 600;   //半径
+    String text = "";
+
+    Paint textPaint;
+
+    Path textPath;
 
     public CanvasView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        paint = new Paint();
+
+        textPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        textPaint.setStyle(Paint.Style.FILL_AND_STROKE);
+        textPaint.setColor(Color.BLACK);
+        textPaint.setTextSize(30);
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
-        // 背景、半透明
-        canvas.drawColor(Color.argb(127, 0, 127, 63));
+        textPath = new Path();
+        textPath.addCircle(-400, 0, radius, Path.Direction.CCW);    //円形のパスをx-400、y0を中心として描画、反時計回り
 
-        // 円
-        paint.setColor(Color.argb(255, 68, 255, 255));
-        paint.setStrokeWidth(30);
-        paint.setAntiAlias(true);
-        paint.setStyle(Paint.Style.STROKE);
-        // (x1,y1,r,paint) 中心x1座標, 中心y1座標, r半径
-        canvas.drawCircle(450, 450, 100, paint);
+        canvas.drawTextOnPath(text, textPath, 0, 0, textPaint);
+    }
 
-        // 矩形
-        paint.setColor(Color.argb(255, 255, 190, 0));
-        paint.setStrokeWidth(10);
-        paint.setStyle(Paint.Style.STROKE);
-        // (x1,y1,x2,y2,paint) 左上の座標(x1,y1), 右下の座標(x2,y2)
-        canvas.drawRect(480, 480, 850, 880, paint);
+    public void getMessage(String messageText){
+        text = messageText;
+        count++;
 
-        // 線
-        paint.setStrokeWidth(15);
-        paint.setColor(Color.argb(255, 0, 255, 120));
-        // (x1,y1,x2,y2,paint) 始点の座標(x1,y1), 終点の座標(x2,y2)
-        canvas.drawLine(350, 850, 750, 630, paint);
+        //1回目の文字列は既定の半径、2回目以降はTextSize分ずらす
+        if (count > 1){
+            radius = (count * 30) + 600;
+        }
+
+        invalidate();   //再描画
     }
 }

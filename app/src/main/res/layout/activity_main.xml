@@ -4,10 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:clipChildren="false"
     tools:context=".MainActivity">
 
     <com.hiro_a.naruko_animation.CanvasView
         android:id="@+id/canvasView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <com.hiro_a.naruko_animation.CanvasView2
+        android:id="@+id/canvasView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
@@ -16,7 +22,7 @@
         android:layout_height="match_parent">
 
         <EditText
-            android:id="@+id/chat"
+            android:id="@+id/messageText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
@@ -25,7 +31,7 @@
             android:inputType="textPersonName" />
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/sendMessageButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
