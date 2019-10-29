@@ -3,6 +3,7 @@ package com.hiro_a.naruko_animation;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.RectF;
@@ -14,25 +15,43 @@ public class CanvasView extends View {
     int radius = 600;   //半径
     String text = "";
 
+    Matrix matrix;
+    long animStartTime;
+    long animDuration = 3000;
+    int framerate = 60;
+
     Paint textPaint;
+    Paint pathPaint;
 
     Path textPath;
 
     public CanvasView(Context context, AttributeSet attrs) {
         super(context, attrs);
 
+        matrix = new Matrix();
+
         textPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         textPaint.setStyle(Paint.Style.FILL_AND_STROKE);
         textPaint.setColor(Color.BLACK);
         textPaint.setTextSize(30);
+
+        pathPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        pathPaint.setStyle(Paint.Style.STROKE);
+        pathPaint.setColor(Color.BLACK);
+        pathPaint.setStrokeWidth(1);
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
+        long animElapsedTime = System.currentTimeMillis() - animStartTime;
+        canvas.rotate(90);
+
         textPath = new Path();
         textPath.addCircle(-400, 0, radius, Path.Direction.CCW);    //円形のパスをx-400、y0を中心として描画、反時計回り
 
-        canvas.drawTextOnPath(text, textPath, 0, 0, textPaint);
+        canvas.drawPath(textPath, pathPaint);
+        //canvas.drawTextOnPath(text, textPath, 0, 0, textPaint);
+
     }
 
     public void getMessage(String messageText){
@@ -44,6 +63,7 @@ public class CanvasView extends View {
             radius = (count * 30) + 600;
         }
 
-        invalidate();   //再描画
+        animStartTime = System.currentTimeMillis();
+        postInvalidate();   //再描画
     }
 }
