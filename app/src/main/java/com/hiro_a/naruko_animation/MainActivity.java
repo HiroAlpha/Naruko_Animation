@@ -55,10 +55,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //アニメーションはR.anim.view_rotationから
         Animation rotate = AnimationUtils.loadAnimation(this, R.anim.view_rotation);
         canvasView.startAnimation(rotate);
-
-        /*
-        rotateでViewごと文字を回転させようとしていますが、回転軸の設定がうまくいない
-        回転のY軸を-400で上にずらすとViewもそれに追従して上にいってしまう
-         */
     }
 }

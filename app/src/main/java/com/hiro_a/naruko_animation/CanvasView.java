@@ -15,11 +15,6 @@ public class CanvasView extends View {
     int radius = 600;   //半径
     String text = "";
 
-    Matrix matrix;
-    long animStartTime;
-    long animDuration = 3000;
-    int framerate = 60;
-
     Paint textPaint;
     Paint pathPaint;
 
@@ -27,8 +22,6 @@ public class CanvasView extends View {
 
     public CanvasView(Context context, AttributeSet attrs) {
         super(context, attrs);
-
-        matrix = new Matrix();
 
         textPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         textPaint.setStyle(Paint.Style.FILL_AND_STROKE);
@@ -43,27 +36,25 @@ public class CanvasView extends View {
 
     @Override
     protected void onDraw(Canvas canvas) {
-        long animElapsedTime = System.currentTimeMillis() - animStartTime;
         canvas.rotate(90);
 
         textPath = new Path();
         textPath.addCircle(-400, 0, radius, Path.Direction.CCW);    //円形のパスをx-400、y0を中心として描画、反時計回り
 
         canvas.drawPath(textPath, pathPaint);
-        //canvas.drawTextOnPath(text, textPath, 0, 0, textPaint);
+        canvas.drawTextOnPath(text, textPath, 0, 0, textPaint);
 
     }
 
     public void getMessage(String messageText){
         text = messageText;
-        count++;
 
         //1回目の文字列は既定の半径、2回目以降はTextSize分ずらす
-        if (count > 1){
-            radius = (count * 30) + 600;
+        if (count < 6){
+            count++;
         }
+        radius = ((count-1) * 30) + 600;
 
-        animStartTime = System.currentTimeMillis();
-        postInvalidate();   //再描画
+        invalidate();   //再描画
     }
 }
