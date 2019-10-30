@@ -52,8 +52,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void viewRotate(){
-        //アニメーションはR.anim.view_rotationから
-        Animation rotate = AnimationUtils.loadAnimation(this, R.anim.view_rotation);
+        //文字列回転アニメーション
+        Animation rotate = AnimationUtils.loadAnimation(this, R.anim.view_rotation);    //アニメーションはR.anim.view_rotationから
         canvasView.startAnimation(rotate);
+
+        //履歴回転アニメーション（ずらす）
+        Animation rotate_instant = AnimationUtils.loadAnimation(this, R.anim.view_rotation_instant);    //アニメーションはR.anim.view_rotation_instantから
+        canvasView2.startAnimation(rotate_instant);
     }
 }
