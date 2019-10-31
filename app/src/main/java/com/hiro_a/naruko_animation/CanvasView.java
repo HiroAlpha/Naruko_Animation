@@ -9,6 +9,11 @@ import android.graphics.Path;
 import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.view.View;
+import android.widget.Toast;
+
+import static java.lang.Math.cos;
+import static java.lang.Math.floor;
+import static java.lang.Math.sin;
 
 public class CanvasView extends View {
     int count = 0;  //文字列受け取り回数
@@ -17,6 +22,7 @@ public class CanvasView extends View {
     int chatCircleRedius = 25;  //UI白丸半径
     float btmArcLeft, btmArcTop, btmArcRight, btmArcBttom;
     float topArcLeft, topArcTop, topArcRight, topArcBttom;
+    double rightCircleSin, rightCircleCos;
     String text = "";
     boolean drawMode = false;
 
@@ -61,7 +67,8 @@ public class CanvasView extends View {
         if (drawMode){
             //UI白線
             graphicPath = new Path();
-            graphicPath.addCircle(radius-400-(textSize/2), 0, chatCircleRedius, Path.Direction.CW); //白丸
+            graphicPath.addCircle(radius-400-(textSize/2), 0, chatCircleRedius, Path.Direction.CW); //左白丸
+            graphicPath.addCircle((float) rightCircleCos, -((float)rightCircleSin), chatCircleRedius, Path.Direction.CW); //右白丸
             RectF topArcRect = new RectF(topArcLeft, topArcTop, topArcRight, topArcBttom);   //円弧上側範囲
             graphicPath.addArc(topArcRect, 315, 45); //円弧上側
             RectF bottomArcRect = new RectF(btmArcLeft, btmArcTop, btmArcRight, btmArcBttom);  //円弧下側範囲
@@ -83,6 +90,9 @@ public class CanvasView extends View {
         }
         radius = ((count-1) * (textSize+20)) + 700;
 
+        //右白丸描画用座標
+        rightCircleSin = (sin(Math.toRadians(45))*(radius-(textSize/2)));
+        rightCircleCos = (cos(Math.toRadians(45))*(radius-(textSize/2))) - 400;
         //円弧描画用座標（上側）
         topArcLeft = -(400+radius-(textSize/2)-chatCircleRedius);
         topArcTop = -(radius-(textSize/2)-chatCircleRedius);
@@ -96,5 +106,6 @@ public class CanvasView extends View {
 
         drawMode = true;
         invalidate();   //再描画
+        Toast.makeText(getContext(), rightCircleSin+"："+rightCircleCos, Toast.LENGTH_SHORT).show();
     }
 }

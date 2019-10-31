@@ -11,6 +11,9 @@ import android.view.View;
 
 import java.util.ArrayList;
 
+import static java.lang.Math.cos;
+import static java.lang.Math.sin;
+
 public class CanvasView2 extends View {
     int textSize = 30;  //文字サイズ
     int radius = 700;   //回転半径
@@ -19,6 +22,7 @@ public class CanvasView2 extends View {
     ArrayList<String> textHolder = new ArrayList<String>(); //過去の文字列格納用Array
     float btmArcLeft, btmArcTop, btmArcRight, btmArcBttom;
     float topArcLeft, topArcTop, topArcRight, topArcBttom;
+    double rightCircleSin, rightCircleCos;
 
     Paint textPaint;
     Paint pathPaint;
@@ -69,6 +73,9 @@ public class CanvasView2 extends View {
                 textPath.addCircle(-400, 0, radius, Path.Direction.CCW);    //円形のパスをx-400、y0を中心として描画、反時計回り
                 canvas.drawPath(textPath, pathPaint);
 
+                //右白丸描画用座標
+                rightCircleSin = (sin(Math.toRadians(45))*(radius-(textSize/2)));
+                rightCircleCos = (cos(Math.toRadians(45))*(radius-(textSize/2))) - 400;
                 //円弧描画用座標（上側）
                 topArcLeft = -(400+radius-(textSize/2)-chatCircleRedius);
                 topArcTop = -(radius-(textSize/2)-chatCircleRedius);
@@ -82,7 +89,8 @@ public class CanvasView2 extends View {
 
                 //UI白線
                 graphicPath = new Path();
-                graphicPath.addCircle(radius-400-(textSize/2), 0, chatCircleRedius, Path.Direction.CW); //白丸
+                graphicPath.addCircle(radius-400-(textSize/2), 0, chatCircleRedius, Path.Direction.CW); //左白丸
+                graphicPath.addCircle((float) rightCircleCos, -((float)rightCircleSin), chatCircleRedius, Path.Direction.CW); //右白丸
                 RectF topArcRect = new RectF(topArcLeft, topArcTop, topArcRight, topArcBttom);   //円弧上側範囲
                 graphicPath.addArc(topArcRect, 315, 45); //円弧上側
                 RectF bottomArcRect = new RectF(btmArcLeft, btmArcTop, btmArcRight, btmArcBttom);  //円弧下側範囲
