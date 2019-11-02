@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;
 
-public class CanvasView2 extends View {
+public class CanvasView_history extends View {
     int textSize = 30;  //文字サイズ
     int radius = 400;   //回転半径
     int chatCircleRedius = 20;  //UI白丸半径
@@ -26,7 +26,7 @@ public class CanvasView2 extends View {
 
     Paint textPaint;
     Paint pathPaint;
-    Paint graphicPain_Line;
+    Paint graphicPaint_Line;
     Paint graphicPaint_Colored, graphicPaint_Colored_FILL;
 
     Path textPath;
@@ -34,7 +34,7 @@ public class CanvasView2 extends View {
     Path graphicPath_Line;
     Path graphicPath_Colored;
 
-    public CanvasView2(Context context, AttributeSet attrs) {
+    public CanvasView_history(Context context, AttributeSet attrs) {
         super(context, attrs);
 
         //文字列設定
@@ -49,7 +49,7 @@ public class CanvasView2 extends View {
         pathPaint.setColor(Color.RED);
         pathPaint.setStrokeWidth(1);
 
-        //UI下色Path設定
+        //UI下色円設定
         graphicPaint_Colored_FILL = new Paint(Paint.ANTI_ALIAS_FLAG);
         graphicPaint_Colored_FILL.setStyle(Paint.Style.FILL);
         graphicPaint_Colored_FILL.setColor(Color.rgb(255,192,203));
@@ -61,10 +61,10 @@ public class CanvasView2 extends View {
         graphicPaint_Colored.setStrokeWidth(chatCircleRedius*2);
 
         //UI白線Path設定
-        graphicPain_Line = new Paint(Paint.ANTI_ALIAS_FLAG);
-        graphicPain_Line.setStyle(Paint.Style.STROKE);
-        graphicPain_Line.setColor(Color.WHITE);
-        graphicPain_Line.setStrokeWidth(5);
+        graphicPaint_Line = new Paint(Paint.ANTI_ALIAS_FLAG);
+        graphicPaint_Line.setStyle(Paint.Style.STROKE);
+        graphicPaint_Line.setColor(Color.WHITE);
+        graphicPaint_Line.setStrokeWidth(5);
     }
 
     @Override
@@ -85,7 +85,7 @@ public class CanvasView2 extends View {
                 //文字列補助線
                 textPath = new Path();
                 textPath.addCircle(-45, 0, radius, Path.Direction.CCW);    //円形のパスをx-400、y0を中心として描画、反時計回り
-                canvas.drawPath(textPath, pathPaint);
+                //canvas.drawPath(textPath, pathPaint);
 
                 //右白丸描画用座標
                 rightCircleSin = (sin(Math.toRadians(90))*(radius-(textSize/2)));
@@ -112,7 +112,7 @@ public class CanvasView2 extends View {
                 graphicPath.addCircle(radius-45-(textSize/2), 0, chatCircleRedius, Path.Direction.CW); //左丸
                 graphicPath.addCircle((float) rightCircleCos, -((float)rightCircleSin), chatCircleRedius, Path.Direction.CW); //右丸
                 canvas.drawPath(graphicPath, graphicPaint_Colored_FILL);
-                canvas.drawPath(graphicPath, graphicPain_Line);
+                canvas.drawPath(graphicPath, graphicPaint_Line);
 
                 //UI白線
                 graphicPath_Line = new Path();
@@ -120,10 +120,10 @@ public class CanvasView2 extends View {
                 graphicPath_Line.addArc(topArcRect, 270, 90); //円弧上側
                 RectF bottomArcRect = new RectF(btmArcLeft, btmArcTop, btmArcRight, btmArcBttom);  //円弧下側範囲
                 graphicPath_Line.addArc(bottomArcRect, 270, 90); //円弧下側
-                canvas.drawPath(graphicPath_Line, graphicPain_Line);
+                canvas.drawPath(graphicPath_Line, graphicPaint_Line);
 
                 //曲線文字列
-                canvas.drawTextOnPath(textHolder.get(i), textPath, 40, 0, textPaint);
+                canvas.drawTextOnPath(textHolder.get(i), textPath, 30, 0, textPaint);
 
                 multiplier++;
             }

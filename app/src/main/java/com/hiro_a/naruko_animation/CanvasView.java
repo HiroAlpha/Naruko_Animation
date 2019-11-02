@@ -12,7 +12,6 @@ import android.view.View;
 import android.widget.Toast;
 
 import static java.lang.Math.cos;
-import static java.lang.Math.floor;
 import static java.lang.Math.sin;
 
 public class CanvasView extends View {
@@ -51,7 +50,7 @@ public class CanvasView extends View {
         pathPaint.setColor(Color.BLACK);
         pathPaint.setStrokeWidth(1);
 
-        //UI下色Path設定
+        //UI下色円設定
         graphicPaint_Colored_FILL = new Paint(Paint.ANTI_ALIAS_FLAG);
         graphicPaint_Colored_FILL.setStyle(Paint.Style.FILL);
         graphicPaint_Colored_FILL.setColor(Color.rgb(255,192,203));
@@ -67,6 +66,10 @@ public class CanvasView extends View {
         graphicPain_Line.setStyle(Paint.Style.STROKE);
         graphicPain_Line.setColor(Color.WHITE);
         graphicPain_Line.setStrokeWidth(5);
+
+        graphicPath_Colored = new Path();
+        graphicPath = new Path();
+        graphicPath_Line = new Path();
     }
 
     @Override
@@ -76,24 +79,21 @@ public class CanvasView extends View {
         //文字列補助線
         textPath = new Path();
         textPath.addCircle(-45, 0, radius, Path.Direction.CCW);    //円形のパスをx-45、y0を中心として描画、反時計回り
-        canvas.drawPath(textPath, pathPaint);
+        //canvas.drawPath(textPath, pathPaint);
 
         if (drawMode){
             //UI下色
-            graphicPath_Colored = new Path();
             RectF coloredArc = new RectF(topArcLeft-chatCircleRedius, topArcTop-chatCircleRedius, topArcRight+chatCircleRedius, topArcBttom+chatCircleRedius);   //円弧範囲
             graphicPath_Colored.addArc(coloredArc, 270, 90); //円弧
             canvas.drawPath(graphicPath_Colored, graphicPaint_Colored);
 
             //共通項
-            graphicPath = new Path();
             graphicPath.addCircle(radius-45-(textSize/2), 0, chatCircleRedius, Path.Direction.CW); //左丸
             graphicPath.addCircle((float) rightCircleCos, -((float)rightCircleSin), chatCircleRedius, Path.Direction.CW); //右丸
             canvas.drawPath(graphicPath, graphicPaint_Colored_FILL);
             canvas.drawPath(graphicPath, graphicPain_Line);
 
             //UI白線
-            graphicPath_Line = new Path();
             RectF topArcRect = new RectF(topArcLeft, topArcTop, topArcRight, topArcBttom);   //円弧上側範囲
             graphicPath_Line.addArc(topArcRect, 270, 90); //円弧上側
             RectF bottomArcRect = new RectF(btmArcLeft, btmArcTop, btmArcRight, btmArcBttom);  //円弧下側範囲
@@ -101,7 +101,7 @@ public class CanvasView extends View {
             canvas.drawPath(graphicPath_Line, graphicPain_Line);
 
             //曲線文字列
-            canvas.drawTextOnPath(text, textPath, 40, 0, textPaint);
+            canvas.drawTextOnPath(text, textPath, 30, 0, textPaint);
         }
 
     }
@@ -131,6 +131,5 @@ public class CanvasView extends View {
 
         drawMode = true;
         invalidate();   //再描画
-        Toast.makeText(getContext(), rightCircleSin+"："+rightCircleCos, Toast.LENGTH_SHORT).show();
     }
 }
