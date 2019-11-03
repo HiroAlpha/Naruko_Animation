@@ -18,6 +18,11 @@
         android:layout_alignParentEnd="true"
         android:clipChildren="false">
 
+        <com.hiro_a.naruko_animation.CanvasView_userLine
+            android:id="@+id/canvasView_usersLine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
         <com.hiro_a.naruko_animation.CanvasView
             android:id="@+id/canvasView"
             android:layout_width="wrap_content"
@@ -33,6 +38,24 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
+        <com.mikhaellopez.circularimageview.CircularImageView
+            android:id="@+id/userImageView"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            app:civ_shadow="true"
+            app:civ_shadow_color="#CC000000"
+            app:civ_shadow_radius="10" />
+
+        <com.hiro_a.naruko_animation.CanvasView_users_test
+            android:id="@+id/canvasView_users_test"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <!--        <SurfaceView-->
+<!--            android:id="@+id/canvasView_users"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content" />-->
+
     </FrameLayout>
 
     <FrameLayout
@@ -46,7 +69,7 @@
 
         <EditText
             android:id="@+id/messageText"
-            android:layout_width="350dp"
+            android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:layout_gravity="center_vertical|center_horizontal"
             android:background="@drawable/frame_edittext"
